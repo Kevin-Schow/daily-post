@@ -11,7 +11,7 @@ import time
 root = Tk()
 root.title('Daily Post')
 root.iconbitmap('c:/Users/haugl/PycharmProjects/TutorialPlayground/Images/icon.ico')
-root.geometry('1200x550')
+root.geometry('1200x650')
 
 # style = ttk.Style()
 # style.theme_use('clam')
@@ -43,10 +43,11 @@ root.geometry('1200x550')
 # Style
 # SystemButtonFace
 
-textbox_bg_style = 'aliceblue'
-textbox_select_style = 'aqua'
+textbox_bg_style = '#0084B4'
+text_bg_color = '#E8F5FD'
+textbox_select_style = 'yellow'
 label_style = 'black'
-bg_style = 'SystemButtonFace'
+bg_style = '#08a0e9'
 
 
 # Set Variable for Open File Name
@@ -55,6 +56,11 @@ open_status_name = False
 
 global selected
 selected = False
+
+global day, date, hours
+day = 59
+date = time.strftime('%x')
+hours = 8
 
 
 def new_file():
@@ -305,7 +311,11 @@ def night_toggle():
 
 
 twitter_keywords = [
-    'python', 'tkinter', 'app'
+    'python', 'tkinter', 'app', 'zerotomastery', 'programmer', 'programmers',
+    'programming', 'code', 'coding', 'udemy', 'computerscience', 'computer',
+    'chess', 'django', 'pygame', 'git', 'github', 'website', 'algorithm',
+    'algorithms', 'sublimetext', 'pycharm', 'career', 'norwegian', 'norway',
+    'web', 'design', 'fordummies', 'duolingo', 'twitter', 'kivy', 'api'
 ]
 
 
@@ -314,8 +324,8 @@ def text_to_tweet():
     original_tweet = re.split(r'(\s|\,)', original_tweet)
     new_tweet = ''
 
-    day = 59
-    start_of_tweet = f'#100DaysOfCode Day {day}: '
+    days_programming = day_textbox.get('1.0', END).strip()
+    start_of_tweet = f'#100DaysOfCode Day {days_programming}: '
 
     # Check if any words need a # added to it then add to tweet
     for word in original_tweet:
@@ -324,14 +334,35 @@ def text_to_tweet():
         else:
             new_tweet += word
 
-
     to_post_tweet = start_of_tweet + new_tweet
-
 
     twitter_textbox.delete('1.0', END)
     twitter_textbox.insert(END, to_post_tweet)
     
 
+def text_to_2020():
+    original_text = main_textbox.get('1.0', END)
+    hours_programming = hours_textbox.get('1.0', END).strip()
+
+    new_text = f'{date} -- {hours_programming} hours --  {original_text}'
+
+    github_2020hours_textbox.delete('1.0', END)
+    github_2020hours_textbox.insert(END, new_text)
+
+    # TODO: If date/hours is 2 digit then 1 less space
+    # 11/28/20 --  8 hours  --  
+
+
+def text_to_100():
+    original_text = main_textbox.get('1.0', END)
+    days_programming = day_textbox.get('1.0', END).strip()
+
+    new_text = f'{date} -- Day {days_programming} --  {original_text}'
+
+    github_100days_textbox.delete('1.0', END)
+    github_100days_textbox.insert(END, new_text)
+    # 11/28/20 --  Day 58  --  
+    pass
 
 
 
@@ -362,75 +393,89 @@ toolbar_frame.grid(row=0, column=1, sticky=W,)
 # Create Text Box Labels
 
 # Day
-day_label = Label(root, text='Day:', fg=label_style)
+day_label = Label(root, text='Day:', fg=text_bg_color, bg=bg_style)
 day_label.grid(row=1, column=0, sticky=W)
 
 # Date
-day_label = Label(root, text='Date:', fg=label_style)
+day_label = Label(root, text='Date:', fg=text_bg_color, bg=bg_style)
 day_label.grid(row=2, column=0, sticky=W)
 
 # Hours
-day_label = Label(root, text='Hours:', fg=label_style)
+day_label = Label(root, text='Hours:', fg=text_bg_color, bg=bg_style)
 day_label.grid(row=3, column=0, sticky=W)
 
 # Text
-day_label = Label(root, text='Text:', fg=label_style)
+day_label = Label(root, text='Text:', fg=text_bg_color, bg=bg_style)
 day_label.grid(row=4, column=0, sticky=W)
 
 # Tweet
-day_label = Label(root, text='Twitter:', fg=label_style)
+day_label = Label(root, text='Twitter:', fg=text_bg_color, bg=bg_style)
 day_label.grid(row=5, column=0, sticky=W)
 
-# Thoughts
-day_label = Label(root, text='Thoughts:', fg=label_style)
+# 2020 Hours
+day_label = Label(root, text='2020 Hours:', fg=text_bg_color, bg=bg_style)
 day_label.grid(row=6, column=0, sticky=W)
+
+# 100 Days
+day_label = Label(root, text='100 Days:', fg=text_bg_color, bg=bg_style)
+day_label.grid(row=7, column=0, sticky=W)
 
 
 
 
 # Create Text Box -- Day
-# TODO: Connect day to current day with a calender/internal clock
-my_text = Text(root, width=10, height=1, font=('Helvetica', 16), selectbackground=textbox_select_style,
-               selectforeground='black', undo=True, bg=textbox_bg_style)
-my_text.grid(row=1, column=1, sticky=W, padx=5)
+day_textbox = Text(root, width=10, height=1, font=('Helvetica', 16), selectbackground=textbox_select_style,
+               selectforeground='black', undo=True, bg=textbox_bg_style, fg=text_bg_color)
+day_textbox.grid(row=1, column=1, sticky=W, padx=5)
+day_textbox.insert(END, day)
 
 
 # Create Text Box -- Date
-# TODO: Connect date to current day with a calender/internal clock
-my_text = Text(root, width=10, height=1, font=('Helvetica', 16), selectbackground=textbox_select_style,
-               selectforeground='black', undo=True, bg=textbox_bg_style)
-my_text.grid(row=2, column=1, sticky=W, padx=5)
+date_textbox = Text(root, width=10, height=1, font=('Helvetica', 16), selectbackground=textbox_select_style,
+               selectforeground='black', undo=True, bg=textbox_bg_style, fg=text_bg_color)
+date_textbox.grid(row=2, column=1, sticky=W, padx=5)
+date_textbox.insert(END, date)
 
 
 # Create Text Box -- Hours
-my_text = Text(root, width=10, height=1, font=('Helvetica', 16), selectbackground=textbox_select_style,
-               selectforeground='black', undo=True, bg=textbox_bg_style)
-my_text.grid(row=3, column=1, sticky=W, padx=5)
+hours_textbox = Text(root, width=10, height=1, font=('Helvetica', 16), selectbackground=textbox_select_style,
+               selectforeground='black', undo=True, bg=textbox_bg_style, fg=text_bg_color)
+hours_textbox.grid(row=3, column=1, sticky=W, padx=5)
+hours_textbox.insert(END, hours)
 
 
 # Create Text Box -- Text
 main_textbox = Text(root, width=70, height=4, font=('Helvetica', 16), selectbackground=textbox_select_style,
-               selectforeground='black', undo=True, bg=textbox_bg_style)
+               selectforeground='black', undo=True, bg=textbox_bg_style, fg=text_bg_color)
 main_textbox.grid(row=4, column=1, sticky=W, padx=5)
 main_textbox.insert(END, "Python tkinter, chess, pygame, daily post app")
 
 
 # Create Text Box -- Twitter
-# Twitter Post Max Length 280 Char
 # TODO: countdown tweet_length = 280
-# TODO: Add # to key words
-# TODO: Copy text input from above into this box with changes made using regex
 twitter_textbox = Text(root, width=70, height=4, font=('Helvetica', 16), selectbackground=textbox_select_style,
-               selectforeground='black', undo=True, bg=textbox_bg_style)
+               selectforeground='black', undo=True, bg=textbox_bg_style, fg=text_bg_color)
 twitter_textbox.grid(row=5, column=1, sticky=W, padx=5)
 twitter_textbox.insert(END, "")
 
 
-# Create Text Box -- Thoughts
-my_text = Text(root, width=70, height=4, font=('Helvetica', 16), selectbackground=textbox_select_style,
-               selectforeground='black', undo=True, bg=textbox_bg_style)
-my_text.grid(row=6, column=1, sticky=W, padx=5)
-my_text.insert(END, "Default Text")
+# Create Text Box -- Github 2020 Hours
+github_2020hours_textbox = Text(root, width=70, height=4, font=('Helvetica', 16), selectbackground=textbox_select_style,
+               selectforeground='black', undo=True, bg=textbox_bg_style, fg=text_bg_color)
+github_2020hours_textbox.grid(row=6, column=1, sticky=W, padx=5)
+github_2020hours_textbox.insert(END, "")
+
+# Create Text Box -- Github 100 Days
+github_100days_textbox = Text(root, width=70, height=4, font=('Helvetica', 16), selectbackground=textbox_select_style,
+               selectforeground='black', undo=True, bg=textbox_bg_style, fg=text_bg_color)
+github_100days_textbox.grid(row=7, column=1, sticky=W, padx=5)
+github_100days_textbox.insert(END, "")
+
+# THIS NEEDS TO BE DELETED, THIS FIXES THE COLOR BUG ON ABOVE TEXTBOX
+# Create Text Box -- REMOVE
+my_text = Text(root, width=1, height=1, font=('Helvetica', 16), selectbackground=textbox_select_style,
+               selectforeground='black', undo=True, bg=textbox_bg_style, fg=text_bg_color)
+my_text.grid(row=8, column=1, sticky=W, padx=5)
 
 
 
@@ -522,28 +567,36 @@ color_text_button.grid(row=0, column=5, sticky=W, padx=5)
 
 # Submit Button
 submit_button = Button(root, text='Submit')
-submit_button.grid(row=7, column=1, ipady=5)
+submit_button.grid(row=9, column=1, ipady=5)
 
-# Copy text to tweet Button
+# Text to Tweet Button
 text_to_tweet_button = Button(root, text='Text to Tweet', command=text_to_tweet)
+text_to_tweet_button.grid(row=5, column=2, ipady=5)
+
+# Text to 2020 Coding Hours Button
+text_to_tweet_button = Button(root, text='Text to 2020', command=text_to_2020)
+text_to_tweet_button.grid(row=6, column=2, ipady=5)
+
+# Text to 100 Days of Code Button
+text_to_tweet_button = Button(root, text='Text to 100', command=text_to_100)
 text_to_tweet_button.grid(row=7, column=2, ipady=5)
 
 
 
 
 def clock():
-    date = time.strftime('%x')
-    hour = time.strftime('%H')
-    minute = time.strftime('%M')
+    clock_date = time.strftime('%x')
+    clock_hour = time.strftime('%H')
+    clock_minute = time.strftime('%M')
     # second = time.strftime('%S')
-    day = time.strftime('%A')
+    clock_day = time.strftime('%A')
 
-    my_label.config(text=hour + ':' + minute)
+    my_label.config(text=clock_hour + ':' + clock_minute)
     my_label.after(1000, clock)
 
-    my_label2.config(text=day)
+    my_label2.config(text=clock_day)
 
-    my_label3.config(text=date)
+    my_label3.config(text=clock_date)
 
 
 def update():
