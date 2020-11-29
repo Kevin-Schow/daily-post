@@ -304,6 +304,37 @@ def night_toggle():
         night_toggle_on = True
 
 
+twitter_keywords = [
+    'python', 'tkinter', 'app'
+]
+
+
+def text_to_tweet():
+    original_tweet = main_textbox.get('1.0', END)
+    original_tweet = re.split(r'(\s|\,)', original_tweet)
+    new_tweet = ''
+
+    day = 59
+    start_of_tweet = f'#100DaysOfCode Day {day}: '
+
+    # Check if any words need a # added to it then add to tweet
+    for word in original_tweet:
+        if word in twitter_keywords or word.lower() in twitter_keywords:
+            new_tweet += (f'#{word}')
+        else:
+            new_tweet += word
+
+
+    to_post_tweet = start_of_tweet + new_tweet
+
+
+    twitter_textbox.delete('1.0', END)
+    twitter_textbox.insert(END, to_post_tweet)
+    
+
+
+
+
 # Create a Toolbar Frame
 toolbar_frame = Frame(root)
 toolbar_frame.grid(row=0, column=1, sticky=W,)
@@ -378,10 +409,10 @@ my_text.grid(row=3, column=1, sticky=W, padx=5)
 
 
 # Create Text Box -- Text
-my_text = Text(root, width=70, height=4, font=('Helvetica', 16), selectbackground=textbox_select_style,
+main_textbox = Text(root, width=70, height=4, font=('Helvetica', 16), selectbackground=textbox_select_style,
                selectforeground='black', undo=True, bg=textbox_bg_style)
-my_text.grid(row=4, column=1, sticky=W, padx=5)
-my_text.insert(END, "Default Text")
+main_textbox.grid(row=4, column=1, sticky=W, padx=5)
+main_textbox.insert(END, "Python tkinter, chess, pygame, daily post app")
 
 
 # Create Text Box -- Twitter
@@ -389,10 +420,10 @@ my_text.insert(END, "Default Text")
 # TODO: countdown tweet_length = 280
 # TODO: Add # to key words
 # TODO: Copy text input from above into this box with changes made using regex
-my_text = Text(root, width=70, height=4, font=('Helvetica', 16), selectbackground=textbox_select_style,
+twitter_textbox = Text(root, width=70, height=4, font=('Helvetica', 16), selectbackground=textbox_select_style,
                selectforeground='black', undo=True, bg=textbox_bg_style)
-my_text.grid(row=5, column=1, sticky=W, padx=5)
-my_text.insert(END, "Default Text")
+twitter_textbox.grid(row=5, column=1, sticky=W, padx=5)
+twitter_textbox.insert(END, "")
 
 
 # Create Text Box -- Thoughts
@@ -492,6 +523,10 @@ color_text_button.grid(row=0, column=5, sticky=W, padx=5)
 # Submit Button
 submit_button = Button(root, text='Submit')
 submit_button.grid(row=7, column=1, ipady=5)
+
+# Copy text to tweet Button
+text_to_tweet_button = Button(root, text='Text to Tweet', command=text_to_tweet)
+text_to_tweet_button.grid(row=7, column=2, ipady=5)
 
 
 
