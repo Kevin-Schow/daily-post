@@ -8,9 +8,10 @@ import win32print
 import win32api
 import time
 
+
 root = Tk()
 root.title('Daily Post')
-root.iconbitmap('c:/Users/haugl/PycharmProjects/TutorialPlayground/Images/icon.ico')
+root.iconbitmap('c:/code/daily-post/images/icon.ico')
 root.geometry('1200x650')
 
 # style = ttk.Style()
@@ -42,6 +43,8 @@ root.geometry('1200x650')
 
 # Style
 # SystemButtonFace
+
+
 
 textbox_bg_style = '#0084B4'
 text_bg_color = '#E8F5FD'
@@ -319,6 +322,13 @@ twitter_keywords = [
 ]
 
 
+def text_to_all():
+    text_to_tweet()
+    text_to_100()
+    text_to_2020()
+
+
+
 def text_to_tweet():
     original_tweet = main_textbox.get('1.0', END)
     original_tweet = re.split(r'(\s|\,)', original_tweet)
@@ -363,6 +373,7 @@ def text_to_100():
     github_100days_textbox.insert(END, new_text)
     # 11/28/20 --  Day 58  --  
     pass
+
 
 
 
@@ -569,6 +580,10 @@ color_text_button.grid(row=0, column=5, sticky=W, padx=5)
 submit_button = Button(root, text='Submit')
 submit_button.grid(row=9, column=1, ipady=5)
 
+# Update All Button
+text_to_all_button = Button(root, text='Update All', command=text_to_all)
+text_to_all_button.grid(row=4, column=2, ipady=5)
+
 # Text to Tweet Button
 text_to_tweet_button = Button(root, text='Text to Tweet', command=text_to_tweet)
 text_to_tweet_button.grid(row=5, column=2, ipady=5)
@@ -580,6 +595,7 @@ text_to_tweet_button.grid(row=6, column=2, ipady=5)
 # Text to 100 Days of Code Button
 text_to_tweet_button = Button(root, text='Text to 100', command=text_to_100)
 text_to_tweet_button.grid(row=7, column=2, ipady=5)
+
 
 
 
@@ -610,6 +626,8 @@ my_label2.grid(row=0, column=8)
 
 my_label = Label(toolbar_frame, text='', font=('Helvetica', 16), fg='white', bg='black')
 my_label.grid(row=0, column=6)
+
+
 
 clock()
 
